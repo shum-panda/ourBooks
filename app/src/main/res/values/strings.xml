@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">App name (see res/values/strings.xml)</string>
+
+    <string name="componentAName">Component A</string>
+    <string name="componentBName">Recycler View Skeleton</string>
+</resources>
