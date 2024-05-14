@@ -1,0 +1,84 @@
+@startuml Komponenten-Diagramm 
+
+package "View" {
+  
+}
+
+cloud "Adhoc Network" {
+
+}
+
+package "Controler" {
+
+}
+
+package "Model" {
+  
+  'book class'
+  database "local DB" {
+    [Book]
+    [User]
+    [LicenceType]
+  }
+
+  [Book]
+  [User] ..> [Book]
+  [Book] ..> [LicenceType]
+}
+
+
+[Model] -(0- [Controler]
+[Controler] -0)- [View]
+[Model] <.. [View]
+
+database "remote DB" {
+  [Book]
+  [User]
+  [LicenceType]
+}
+
+[Controler] -0)- [remote DB]
+[Controler] --> [Adhoc Network] : local book transfer 
+
+@enduml  
+
+@startuml Klassendiagramm
+class Book {
+  -id: int
+  -title: string
+  -licenceType: LicenceType
+}
+
+interface Licence {
+  -licenceType: LicenceType
+  -id: int
+  -name: string
+  -transferRecord: Transfer[] 
+}
+
+class Transfer {
+  -from: User
+  -to: User
+  -date: Date
+  -signatureFrom: string
+  -signatureTo: string
+}
+
+enum LicenceType {
+  PRIVATE, FRIENDS, PUBLIC
+}
+
+
+class User {
+  -id: int
+  -name: string
+  -email: string
+  -password: string
+  -bookList: Book[]
+}
+
+Book "1" -- "1" Licence
+User "1" -- "*" Book    
+Licence "1" -- "*" Transfer
+Licence "1" -- "1" LicenceType
+@enduml
